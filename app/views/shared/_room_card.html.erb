@@ -1,0 +1,45 @@
+<div class="col">
+  <div class="card h-100 shadow-sm">
+    <% if room.image.attached? %>
+      <%= image_tag room.image.variant(resize_to_fill: [400, 250]), class: "card-img-top", style: "height:200px;object-fit:cover;" %>
+    <% else %>
+      <div class="card-img-top bg-secondary d-flex align-items-center justify-content-center" style="height:200px;">
+        <span class="text-white fs-1">🏨</span>
+      </div>
+    <% end %>
+
+    <div class="card-body d-flex flex-column">
+      <div class="d-flex justify-content-between mb-2">
+        <span class="badge bg-secondary"><%= room.room_type %></span>
+        <div>
+          <% if room.on_sale? %>
+            <span class="badge bg-danger me-1">SALE</span>
+          <% end %>
+          <% if room.created_at >= 3.days.ago %>
+            <span class="badge bg-success">NEW</span>
+          <% end %>
+        </div>
+      </div>
+
+      <h5 class="card-title"><%= room.name %></h5>
+      <p class="card-text text-muted small"><%= truncate(room.description, length: 100) %></p>
+
+      <div class="mt-auto">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <% if room.on_sale? && room.sale_price %>
+              <span class="text-muted text-decoration-line-through small">$<%= room.price %></span>
+              <span class="fw-bold text-danger">$<%= room.sale_price %>/night</span>
+            <% else %>
+              <span class="fw-bold">$<%= room.price %>/night</span>
+            <% end %>
+          </div>
+          <small class="text-muted">👥 <%= room.capacity %> guests</small>
+        </div>
+        <div class="mt-2">
+          <%= link_to "View Room", room_path(room), class: "btn btn-outline-dark btn-sm w-100" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,15 @@
+<% if local_assigns[:breadcrumbs].present? %>
+  <nav aria-label="breadcrumb" class="mb-4">
+    <ol class="breadcrumb">
+      <% breadcrumbs.each_with_index do |crumb, index| %>
+        <li class="breadcrumb-item <%= 'active' if index == breadcrumbs.length - 1 %>">
+          <% if crumb[:path] %>
+            <%= link_to crumb[:name], crumb[:path] %>
+          <% else %>
+            <%= crumb[:name] %>
+          <% end %>
+        </li>
+      <% end %>
+    </ol>
+  </nav>
+<% end %>

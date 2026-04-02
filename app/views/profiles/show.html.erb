@@ -1,0 +1,14 @@
+<div class="container py-5">
+  <h1 class="fw-light mb-4">My Profile</h1>
+  <div class="card border-0 shadow-sm" style="max-width:600px;">
+    <div class="card-body">
+      <p><strong>Name:</strong> <%= current_user.name %></p>
+      <p><strong>Email:</strong> <%= current_user.email %></p>
+      <p><strong>Phone:</strong> <%= current_user.phone.presence || "Not provided" %></p>
+      <p><strong>Address:</strong> <%= current_user.address.presence || "Not provided" %></p>
+      <p><strong>City:</strong> <%= current_user.city.presence || "Not provided" %></p>
+      <p><strong>Province:</strong> <%= current_user.province&.name || "Not provided" %></p>
+      <%= link_to "Edit Profile", edit_profile_path, class: "btn btn-dark" %>
+    </div>
+  </div>
+</div>

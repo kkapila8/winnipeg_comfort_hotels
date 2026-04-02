@@ -1,0 +1,69 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+  <div class="container">
+    <%= link_to root_path, class: "navbar-brand fw-light fs-4" do %>
+      Winnipeg <span style="color:#B8965A">Comfort</span> Hotels
+    <% end %>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <%= link_to "Rooms", rooms_path, class: "nav-link" %>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Categories</a>
+          <ul class="dropdown-menu">
+            <% Category.all.each do |cat| %>
+              <li><%= link_to cat.name, category_path(cat), class: "dropdown-item" %></li>
+            <% end %>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <%= link_to "About", about_path, class: "nav-link" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "Contact", contact_path, class: "nav-link" %>
+        </li>
+      </ul>
+
+      <ul class="navbar-nav ms-auto align-items-center gap-2">
+        <li class="nav-item">
+          <%= link_to cart_path, class: "btn btn-outline-warning btn-sm" do %>
+            🛒 Cart
+            <% if cart_count > 0 %>
+              <span class="badge bg-warning text-dark ms-1"><%= cart_count %></span>
+            <% end %>
+          <% end %>
+        </li>
+
+        <% if user_signed_in? %>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle text-white" href="#" data-bs-toggle="dropdown">
+              <%= current_user.display_name %>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><%= link_to "My Profile", profile_path, class: "dropdown-item" %></li>
+              <li><%= link_to "My Bookings", orders_path, class: "dropdown-item" %></li>
+              <% if current_user.admin? %>
+                <li><hr class="dropdown-divider"></li>
+                <li><%= link_to "Admin Panel", admin_root_path, class: "dropdown-item" %></li>
+              <% end %>
+              <li><hr class="dropdown-divider"></li>
+              <li><%= link_to "Sign Out", destroy_user_session_path, data: { turbo_method: :delete }, class: "dropdown-item" %></li>
+            </ul>
+          </li>
+        <% else %>
+          <li class="nav-item">
+            <%= link_to "Sign In", new_user_session_path, class: "btn btn-outline-light btn-sm" %>
+          </li>
+          <li class="nav-item">
+            <%= link_to "Sign Up", new_user_registration_path, class: "btn btn-warning btn-sm" %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</nav>

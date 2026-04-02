@@ -1,0 +1,53 @@
+<div class="container py-5">
+  <%= render "shared/breadcrumbs", breadcrumbs: @breadcrumbs %>
+
+  <div class="row g-5">
+    <div class="col-lg-7">
+      <% if @room.image.attached? %>
+        <%= image_tag @room.image.variant(resize_to_fill: [700, 450]), class: "img-fluid w-100", style: "object-fit:cover;max-height:450px;" %>
+      <% else %>
+        <div class="bg-secondary d-flex align-items-center justify-content-center rounded" style="height:450px;">
+          <span class="text-white" style="font-size:80px;">🏨</span>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="col-lg-5">
+      <p class="text-uppercase small text-muted letter-spacing"><%= @room.room_type %> · <%= @room.hotel.name %></p>
+      <h1 class="fw-light mb-3"><%= @room.name %></h1>
+
+      <div class="mb-4">
+        <% if @room.on_sale? && @room.sale_price %>
+          <span class="text-muted text-decoration-line-through fs-5">$<%= @room.price %></span>
+          <span class="fs-2 fw-light text-danger ms-2">$<%= @room.sale_price %></span>
+          <span class="text-muted">/night</span>
+          <span class="badge bg-danger ms-2"><%= @room.discount_percent %>% OFF</span>
+        <% else %>
+          <span class="fs-2 fw-light">$<%= @room.price %></span>
+          <span class="text-muted">/night</span>
+        <% end %>
+      </div>
+
+      <p class="text-muted"><%= @room.description %></p>
+
+      <table class="table table-sm mb-4">
+        <tr><td class="text-muted">Hotel</td><td><%= @room.hotel.name %></td></tr>
+        <tr><td class="text-muted">Location</td><td><%= @room.hotel.address %>, <%= @room.hotel.city %></td></tr>
+        <tr><td class="text-muted">Capacity</td><td>Up to <%= @room.capacity %> guests</td></tr>
+        <tr><td class="text-muted">Room Type</td><td><%= @room.room_type %></td></tr>
+        <% if @room.amenities.present? %>
+          <tr><td class="text-muted">Amenities</td><td><%= @room.amenities_list.join(", ") %></td></tr>
+        <% end %>
+      </table>
+
+      <%= form_with url: add_item_cart_path, method: :post, local: true do |f| %>
+        <%= hidden_field_tag :room_id, @room.id %>
+        <div class="d-flex align-items-center gap-3 mb-3">
+          <label class="text-muted small">Nights:</label>
+          <%= number_field_tag :quantity, 1, min: 1, max: 30, class: "form-control w-25" %>
+        </div>
+        <%= submit_tag "Add to Cart", class: "btn btn-dark w-100 py-2" %>
+      <% end %>
+    </div>
+  </div>
+</div>

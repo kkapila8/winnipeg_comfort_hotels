@@ -1,0 +1,40 @@
+<footer class="bg-dark text-white mt-5 py-4">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4">
+        <h5 class="fw-light">Winnipeg <span style="color:#B8965A">Comfort</span> Hotels</h5>
+        <p class="text-muted small">Three locations across Winnipeg, Manitoba. Comfortable stays for tourists, business travellers, and families.</p>
+      </div>
+      <div class="col-md-2">
+        <h6 class="text-uppercase small" style="color:#B8965A">Explore</h6>
+        <ul class="list-unstyled small">
+          <li><%= link_to "Rooms", rooms_path, class: "text-muted text-decoration-none" %></li>
+          <li><%= link_to "About", about_path, class: "text-muted text-decoration-none" %></li>
+          <li><%= link_to "Contact", contact_path, class: "text-muted text-decoration-none" %></li>
+        </ul>
+      </div>
+      <div class="col-md-3">
+        <h6 class="text-uppercase small" style="color:#B8965A">Account</h6>
+        <ul class="list-unstyled small">
+          <% if user_signed_in? %>
+            <li><%= link_to "My Bookings", orders_path, class: "text-muted text-decoration-none" %></li>
+            <li><%= link_to "My Profile", profile_path, class: "text-muted text-decoration-none" %></li>
+          <% else %>
+            <li><%= link_to "Sign In", new_user_session_path, class: "text-muted text-decoration-none" %></li>
+            <li><%= link_to "Sign Up", new_user_registration_path, class: "text-muted text-decoration-none" %></li>
+          <% end %>
+        </ul>
+      </div>
+      <div class="col-md-3">
+        <h6 class="text-uppercase small" style="color:#B8965A">Contact</h6>
+        <p class="text-muted small">
+          📍 Winnipeg, Manitoba<br>
+          📞 (204) 555-0100<br>
+          ✉️ info@wpgcomforthotels.com
+        </p>
+      </div>
+    </div>
+    <hr class="border-secondary">
+    <p class="text-center text-muted small mb-0">© <%= Time.current.year %> Winnipeg Comfort Hotels. All rights reserved.</p>
+  </div>
+</footer>

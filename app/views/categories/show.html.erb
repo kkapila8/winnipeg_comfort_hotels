@@ -1,0 +1,22 @@
+<div class="container py-5">
+  <%= render "shared/breadcrumbs", breadcrumbs: @breadcrumbs %>
+  <h1 class="fw-light mb-1"><%= @category.name %></h1>
+  <p class="text-muted mb-4"><%= @category.description %></p>
+
+  <% if @rooms.any? %>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+      <% @rooms.each do |room| %>
+        <%= render "shared/room_card", room: room %>
+      <% end %>
+    </div>
+    <div class="d-flex justify-content-center mt-5">
+      <%= paginate @rooms %>
+    </div>
+  <% else %>
+    <div class="text-center py-5">
+      <p class="fs-1">🏨</p>
+      <h4 class="fw-light">No rooms in this category</h4>
+      <%= link_to "View All Rooms", rooms_path, class: "btn btn-dark" %>
+    </div>
+  <% end %>
+</div>

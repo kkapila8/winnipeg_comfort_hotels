@@ -1,0 +1,48 @@
+<div class="container py-5">
+  <h1 class="fw-light mb-1">Booking Confirmed!</h1>
+  <p class="text-muted mb-4">Order #<%= @order.id %> · <%= @order.created_at.strftime("%B %d, %Y") %></p>
+
+  <div class="row g-4">
+    <div class="col-lg-7">
+      <div class="card border-0 shadow-sm mb-4">
+        <div class="card-body">
+          <h5 class="fw-light mb-3">Rooms Booked</h5>
+          <% @order.order_items.each do |item| %>
+            <div class="d-flex justify-content-between mb-2 pb-2 border-bottom">
+              <div>
+                <p class="mb-0"><%= item.room_name %></p>
+                <small class="text-muted"><%= item.quantity %> night(s) × $<%= item.unit_price %></small>
+              </div>
+              <span>$<%= item.line_total %></span>
+            </div>
+          <% end %>
+          <div class="d-flex justify-content-between text-muted small mt-2"><span>Subtotal</span><span>$<%= @order.subtotal %></span></div>
+          <% if @order.gst_amount > 0 %>
+            <div class="d-flex justify-content-between text-muted small"><span>GST</span><span>$<%= @order.gst_amount %></span></div>
+          <% end %>
+          <% if @order.pst_amount > 0 %>
+            <div class="d-flex justify-content-between text-muted small"><span>PST</span><span>$<%= @order.pst_amount %></span></div>
+          <% end %>
+          <% if @order.hst_amount > 0 %>
+            <div class="d-flex justify-content-between text-muted small"><span>HST</span><span>$<%= @order.hst_amount %></span></div>
+          <% end %>
+          <hr>
+          <div class="d-flex justify-content-between fw-bold fs-5"><span>Total</span><span>$<%= @order.total %></span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-5">
+      <div class="card border-0 bg-light">
+        <div class="card-body">
+          <h5 class="fw-light mb-3">Address</h5>
+          <p class="mb-1"><%= @order.shipping_address %></p>
+          <p class="mb-1"><%= @order.shipping_city %>, <%= @order.province_name %></p>
+          <p class="mb-0"><%= @order.shipping_postal %></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%= link_to "Back to My Bookings", orders_path, class: "btn btn-outline-dark mt-3" %>
+</div>

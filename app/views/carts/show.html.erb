@@ -1,0 +1,76 @@
+<div class="container py-5">
+  <h1 class="fw-light mb-4">Your Cart</h1>
+
+  <% if @cart_items.any? %>
+    <div class="row g-4">
+      <div class="col-lg-8">
+        <% @cart_items.each do |item| %>
+          <div class="card mb-3 border-0 shadow-sm">
+            <div class="card-body">
+              <div class="row align-items-center">
+                <div class="col-md-6">
+                  <h5 class="fw-light"><%= item[:room].name %></h5>
+                  <p class="text-muted small mb-0"><%= item[:room].room_type %> · <%= item[:room].hotel.name %></p>
+                  <p class="text-muted small">$<%= item[:price] %>/night</p>
+                </div>
+
+                <%# Feature 3.1.2 - Edit quantity %>
+                <div class="col-md-3">
+                  <%= form_with url: update_item_cart_path, method: :patch, local: true do |f| %>
+                    <%= hidden_field_tag :room_id, item[:room].id %>
+                    <div class="input-group input-group-sm">
+                      <%= number_field_tag :quantity, item[:quantity], min: 1, max: 30, class: "form-control" %>
+                      <%= submit_tag "Update", class: "btn btn-outline-secondary btn-sm" %>
+                    </div>
+                  <% end %>
+                </div>
+
+                <div class="col-md-2 text-end">
+                  <p class="fw-bold mb-1">$<%= item[:subtotal].round(2) %></p>
+                  <%# Feature 3.1.2 - Remove item (independent of quantity editing) %>
+                  <%= button_to "Remove", remove_item_cart_path(room_id: item[:room].id),
+                      method: :delete, class: "btn btn-link btn-sm text-danger p-0",
+                      form: { style: "display:inline" } %>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="card border-0 shadow-sm">
+          <div class="card-body">
+            <h5 class="fw-light mb-3">Order Summary</h5>
+            <div class="d-flex justify-content-between mb-2">
+              <span class="text-muted">Subtotal</span>
+              <span>$<%= @subtotal.round(2) %></span>
+            </div>
+            <div class="d-flex justify-content-between mb-2">
+              <span class="text-muted">Taxes</span>
+              <span>Calculated at checkout</span>
+            </div>
+            <hr>
+            <div class="d-flex justify-content-between fw-bold fs-5">
+              <span>Total</span>
+              <span>$<%= @subtotal.round(2) %>+</span>
+            </div>
+            <div class="mt-3">
+              <%= link_to "Proceed to Checkout", checkout_path, class: "btn btn-dark w-100 py-2" %>
+            </div>
+            <div class="mt-2">
+              <%= link_to "Continue Browsing", rooms_path, class: "btn btn-outline-secondary w-100" %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% else %>
+    <div class="text-center py-5">
+      <p class="fs-1">🛒</p>
+      <h4 class="fw-light">Your cart is empty</h4>
+      <p class="text-muted">Add some rooms to get started.</p>
+      <%= link_to "Browse Rooms", rooms_path, class: "btn btn-dark" %>
+    </div>
+  <% end %>
+</div>
