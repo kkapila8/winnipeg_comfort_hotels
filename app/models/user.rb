@@ -15,4 +15,11 @@ class User < ApplicationRecord
   def display_name
     name.split.first
   end
+  def self.ransackable_attributes(auth_object = nil)
+  ["created_at", "email", "id", "name", "phone", "updated_at"]
+end
+
+def self.ransackable_associations(auth_object = nil)
+  ["orders", "province"]
+end
 end
