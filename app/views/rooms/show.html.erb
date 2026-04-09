@@ -40,7 +40,7 @@
         <% end %>
       </table>
 
-      <%= form_with url: add_item_cart_path, method: :post, local: true do |f| %>
+      <%= form_with url: add_item_cart_path, method: :post, local: true, data: { turbo: false } do |f| %>
         <%= hidden_field_tag :room_id, @room.id %>
         <div class="d-flex align-items-center gap-3 mb-3">
           <label class="text-muted small">Nights:</label>

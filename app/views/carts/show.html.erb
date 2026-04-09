@@ -16,7 +16,7 @@
 
                 <%# Feature 3.1.2 - Edit quantity %>
                 <div class="col-md-3">
-                  <%= form_with url: update_item_cart_path, method: :patch, local: true do |f| %>
+                 <%= form_with url: update_item_cart_path, method: :patch, local: true, data: { turbo: false } do |f| %>
                     <%= hidden_field_tag :room_id, item[:room].id %>
                     <div class="input-group input-group-sm">
                       <%= number_field_tag :quantity, item[:quantity], min: 1, max: 30, class: "form-control" %>
@@ -29,8 +29,8 @@
                   <p class="fw-bold mb-1">$<%= item[:subtotal].round(2) %></p>
                   <%# Feature 3.1.2 - Remove item (independent of quantity editing) %>
                   <%= button_to "Remove", remove_item_cart_path(room_id: item[:room].id),
-                      method: :delete, class: "btn btn-link btn-sm text-danger p-0",
-                      form: { style: "display:inline" } %>
+    method: :delete, class: "btn btn-link btn-sm text-danger p-0",
+    form: { style: "display:inline", data: { turbo: false } } %>
                 </div>
               </div>
             </div>

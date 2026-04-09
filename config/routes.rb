@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   devise_for :users, controllers: {
     registrations: "users/registrations",
     sessions:      "users/sessions"
-  }
+  }, sign_out_via: :get
 
   root "rooms#index"
 
