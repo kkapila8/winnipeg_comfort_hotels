@@ -16,4 +16,14 @@ class Order < ApplicationRecord
   def tax_total
     gst_amount + pst_amount + hst_amount
   end
+  def self.ransackable_attributes(auth_object = nil)
+  ["created_at", "gst_amount", "gst_rate", "hst_amount", "hst_rate",
+   "id", "province_id", "province_name", "pst_amount", "pst_rate",
+   "shipping_address", "shipping_city", "shipping_postal", "status",
+   "subtotal", "total", "updated_at", "user_id"]
+end
+
+def self.ransackable_associations(auth_object = nil)
+  ["user", "province", "order_items"]
+end
 end
