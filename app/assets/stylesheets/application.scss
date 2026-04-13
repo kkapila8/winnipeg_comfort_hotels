@@ -1,0 +1,807 @@
+// ============================================================
+// Winnipeg Comfort Hotels — application.scss
+// Feature 4.1.2 Consistent professional design
+// Feature 4.1.5 SCSS with nesting, variables, inheritance, operators
+// ============================================================
+
+// ── VARIABLES ────────────────────────────────────────────
+$gold:         #B8965A;
+$gold-light:   #D4B07A;
+$gold-dark:    #8A6D3B;
+$ink:          #1A1614;
+$ink-soft:     #3D3530;
+$cream:        #FAF7F2;
+$cream-dark:   #F0EBE1;
+$warm-gray:    #8C8078;
+$white:        #FFFFFF;
+$danger-red:   #C0392B;
+$success-green:#2E7D52;
+$border-color: rgba(184, 150, 90, 0.25);
+
+$font-serif:   'Cormorant Garamond', serif;
+$font-sans:    'DM Sans', sans-serif;
+
+$transition:   all 0.2s ease;
+$shadow-sm:    0 2px 12px rgba(26,22,20,0.07);
+$shadow-md:    0 8px 32px rgba(26,22,20,0.10);
+$shadow-lg:    0 20px 60px rgba(26,22,20,0.14);
+
+// ── BASE ─────────────────────────────────────────────────
+* { box-sizing: border-box; }
+
+body {
+  font-family: $font-sans;
+  background-color: $cream;
+  color: $ink;
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: $font-serif;
+  font-weight: 300;
+  color: $ink;
+}
+
+a {
+  color: $gold;
+  text-decoration: none;
+  transition: $transition;
+  &:hover { color: $gold-dark; }
+}
+
+// ── NAVBAR ───────────────────────────────────────────────
+.navbar {
+  background: rgba(26, 22, 20, 0.97) !important;
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(184, 150, 90, 0.2);
+  padding: 0;
+  min-height: 68px;
+
+  .navbar-brand {
+    font-family: $font-serif;
+    font-size: 22px;
+    font-weight: 300;
+    color: $white !important;
+    letter-spacing: 0.02em;
+    padding: 16px 0;
+
+    span { color: $gold; }
+  }
+
+  .nav-link {
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.75) !important;
+    padding: 8px 16px !important;
+    transition: $transition;
+
+    &:hover, &.active {
+      color: $gold !important;
+    }
+  }
+
+  .dropdown-menu {
+    background: $ink;
+    border: 1px solid rgba(184,150,90,0.2);
+    border-radius: 0;
+    padding: 8px 0;
+    margin-top: 0;
+
+    .dropdown-item {
+      font-size: 13px;
+      color: rgba(255,255,255,0.7);
+      padding: 8px 20px;
+      letter-spacing: 0.04em;
+      transition: $transition;
+
+      &:hover {
+        background: rgba(184,150,90,0.1);
+        color: $gold;
+      }
+    }
+
+    .dropdown-divider {
+      border-color: rgba(184,150,90,0.2);
+    }
+  }
+
+  // Cart button
+  .btn-outline-warning {
+    border-color: rgba(184,150,90,0.5);
+    color: $gold-light;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    border-radius: 0;
+    transition: $transition;
+
+    &:hover {
+      background: $gold;
+      border-color: $gold;
+      color: $white;
+    }
+
+    .badge {
+      background: $gold !important;
+      color: $ink;
+      font-size: 10px;
+    }
+  }
+
+  // Sign in / Sign up buttons
+  .btn-outline-light {
+    border-color: rgba(255,255,255,0.3);
+    color: rgba(255,255,255,0.8);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-radius: 0;
+    padding: 6px 16px;
+    transition: $transition;
+
+    &:hover {
+      background: rgba(255,255,255,0.1);
+      border-color: rgba(255,255,255,0.6);
+      color: $white;
+    }
+  }
+
+  .btn-warning {
+    background: $gold;
+    border-color: $gold;
+    color: $white;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-radius: 0;
+    padding: 6px 16px;
+    transition: $transition;
+
+    &:hover {
+      background: $gold-dark;
+      border-color: $gold-dark;
+      color: $white;
+    }
+  }
+}
+
+// ── FLASH MESSAGES ───────────────────────────────────────
+.alert {
+  border-radius: 0;
+  border: none;
+  border-left: 3px solid;
+  font-size: 13px;
+  padding: 12px 20px;
+
+  &.alert-success {
+    background: rgba(46,125,82,0.08);
+    border-left-color: $success-green;
+    color: $success-green;
+  }
+
+  &.alert-danger {
+    background: rgba(192,57,43,0.08);
+    border-left-color: $danger-red;
+    color: $danger-red;
+  }
+
+  &.alert-info {
+    background: rgba(184,150,90,0.08);
+    border-left-color: $gold;
+    color: $gold-dark;
+  }
+}
+
+// ── BREADCRUMBS ──────────────────────────────────────────
+.breadcrumb {
+  background: transparent;
+  padding: 0;
+  margin-bottom: 24px;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+
+  .breadcrumb-item {
+    color: $warm-gray;
+
+    a {
+      color: $warm-gray;
+      &:hover { color: $gold; }
+    }
+
+    &.active { color: $ink; }
+
+    & + .breadcrumb-item::before {
+      content: "›";
+      color: $border-color;
+    }
+  }
+}
+
+// ── ROOM CARDS ───────────────────────────────────────────
+.card {
+  border: 1px solid $border-color !important;
+  border-radius: 0 !important;
+  background: $white;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: $shadow-lg !important;
+  }
+
+  .card-img-top {
+    border-radius: 0 !important;
+    height: 220px;
+    object-fit: cover;
+  }
+
+  .card-body {
+    padding: 24px;
+  }
+
+  .card-title {
+    font-family: $font-serif;
+    font-size: 20px;
+    font-weight: 400;
+    margin-bottom: 8px;
+
+    a {
+      color: $ink;
+      &:hover { color: $gold; }
+    }
+  }
+
+  .card-text {
+    font-size: 13px;
+    color: $warm-gray;
+    line-height: 1.6;
+  }
+}
+
+// Room image placeholder
+.room-img-placeholder {
+  height: 220px;
+  background: $cream-dark;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+  border-bottom: 1px solid $border-color;
+}
+
+// Room type badge
+.badge.bg-secondary {
+  background: $cream-dark !important;
+  color: $warm-gray !important;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 0;
+}
+
+// Sale / New badges
+.badge.bg-danger {
+  background: $danger-red !important;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: 0;
+  padding: 4px 10px;
+}
+
+.badge.bg-success {
+  background: $success-green !important;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: 0;
+  padding: 4px 10px;
+}
+
+// ── BUTTONS ──────────────────────────────────────────────
+%btn-base {
+  font-family: $font-sans;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-radius: 0;
+  padding: 10px 24px;
+  transition: $transition;
+  cursor: pointer;
+}
+
+.btn-dark {
+  @extend %btn-base;
+  background: $ink;
+  border-color: $ink;
+  color: $white;
+
+  &:hover {
+    background: $ink-soft;
+    border-color: $ink-soft;
+    color: $white;
+  }
+}
+
+.btn-outline-dark {
+  @extend %btn-base;
+  background: transparent;
+  border: 1px solid $ink;
+  color: $ink;
+
+  &:hover {
+    background: $ink;
+    color: $white;
+  }
+}
+
+.btn-outline-gold {
+  @extend %btn-base;
+  background: transparent;
+  border: 1px solid $gold;
+  color: $gold;
+
+  &:hover {
+    background: $gold;
+    color: $white;
+  }
+}
+
+.btn-gold {
+  @extend %btn-base;
+  background: $gold;
+  border: 1px solid $gold;
+  color: $white;
+
+  &:hover {
+    background: $gold-dark;
+    border-color: $gold-dark;
+    color: $white;
+  }
+}
+
+.btn-outline-secondary {
+  @extend %btn-base;
+  background: transparent;
+  border: 1px solid $border-color;
+  color: $warm-gray;
+
+  &:hover {
+    background: $cream-dark;
+    border-color: $warm-gray;
+    color: $ink;
+  }
+}
+
+// ── SEARCH BAR ───────────────────────────────────────────
+.bg-light {
+  background: $white !important;
+  border: 1px solid $border-color !important;
+}
+
+.form-control, .form-select {
+  border: 1px solid $border-color;
+  border-radius: 0;
+  background: $cream;
+  font-family: $font-sans;
+  font-size: 14px;
+  color: $ink;
+  padding: 10px 14px;
+  transition: $transition;
+
+  &:focus {
+    border-color: $gold;
+    box-shadow: 0 0 0 2px rgba(184,150,90,0.1);
+    background: $white;
+    outline: none;
+  }
+
+  &::placeholder { color: $warm-gray; }
+}
+
+.form-label {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: $warm-gray;
+  margin-bottom: 6px;
+}
+
+// ── FILTER BUTTONS ───────────────────────────────────────
+.btn-sm {
+  font-size: 11px;
+  padding: 6px 16px;
+  letter-spacing: 0.08em;
+}
+
+// ── PAGINATION ───────────────────────────────────────────
+.pagination {
+  gap: 4px;
+
+  .page-item {
+    .page-link {
+      border: 1px solid $border-color;
+      color: $ink;
+      background: $white;
+      border-radius: 0 !important;
+      font-size: 13px;
+      padding: 8px 14px;
+      transition: $transition;
+
+      &:hover {
+        background: $cream-dark;
+        border-color: $gold;
+        color: $gold;
+      }
+    }
+
+    &.active .page-link {
+      background: $gold;
+      border-color: $gold;
+      color: $white;
+    }
+
+    &.disabled .page-link {
+      color: $warm-gray;
+      background: $cream;
+    }
+  }
+}
+
+// ── CART ─────────────────────────────────────────────────
+.cart-section, .checkout-section {
+  padding: 60px 0 100px;
+}
+
+.cart-item-card {
+  border: 1px solid $border-color;
+  border-radius: 0;
+  padding: 24px;
+  background: $white;
+  margin-bottom: 16px;
+  transition: $transition;
+
+  &:hover { box-shadow: $shadow-sm; }
+}
+
+.input-group {
+  .form-control {
+    border-radius: 0;
+  }
+
+  .btn {
+    border-radius: 0;
+    border-color: $border-color;
+  }
+}
+
+// ── SUMMARY CARD ─────────────────────────────────────────
+.summary-card {
+  background: $white;
+  border: 1px solid $border-color;
+  padding: 32px;
+  position: sticky;
+  top: 88px;
+
+  h5 {
+    font-family: $font-serif;
+    font-size: 24px;
+    font-weight: 300;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid $border-color;
+  }
+}
+
+// ── CHECKOUT FORM ────────────────────────────────────────
+.checkout-card {
+  background: $white;
+  border: 1px solid $border-color;
+  padding: 32px;
+  margin-bottom: 24px;
+
+  h5 {
+    font-family: $font-serif;
+    font-size: 22px;
+    font-weight: 300;
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid $border-color;
+  }
+}
+
+// ── ORDERS ───────────────────────────────────────────────
+.order-card {
+  background: $white;
+  border: 1px solid $border-color;
+  padding: 28px;
+  margin-bottom: 20px;
+  transition: $transition;
+
+  &:hover { box-shadow: $shadow-sm; }
+
+  .order-header {
+    padding-bottom: 16px;
+    margin-bottom: 16px;
+    border-bottom: 1px solid $border-color;
+  }
+}
+
+.badge-status {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border-radius: 0;
+
+  &.pending {
+    background: rgba(184,150,90,0.12);
+    color: $gold-dark;
+    border: 1px solid rgba(184,150,90,0.3);
+  }
+
+  &.paid {
+    background: rgba(46,125,82,0.1);
+    color: $success-green;
+    border: 1px solid rgba(46,125,82,0.3);
+  }
+
+  &.shipped {
+    background: rgba(26,22,20,0.06);
+    color: $ink-soft;
+    border: 1px solid rgba(26,22,20,0.15);
+  }
+}
+
+// ── PROFILE / AUTH ───────────────────────────────────────
+.auth-card, .profile-card {
+  background: $white;
+  border: 1px solid $border-color;
+  padding: 48px;
+  max-width: 520px;
+  margin: 0 auto;
+
+  h2 {
+    font-family: $font-serif;
+    font-size: 38px;
+    font-weight: 300;
+    margin-bottom: 8px;
+  }
+
+  .auth-subtitle {
+    font-size: 13px;
+    color: $warm-gray;
+    margin-bottom: 32px;
+  }
+}
+
+// ── TABLE ────────────────────────────────────────────────
+.table {
+  font-size: 13px;
+  border-color: $border-color;
+
+  th {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: $warm-gray;
+    border-color: $border-color;
+    padding: 12px 16px;
+    background: $cream;
+  }
+
+  td {
+    border-color: $border-color;
+    padding: 14px 16px;
+    vertical-align: middle;
+    color: $ink-soft;
+  }
+
+  tbody tr:hover td {
+    background: $cream;
+  }
+}
+
+// ── ABOUT / CONTACT ──────────────────────────────────────
+.page-section {
+  padding: 80px 0 100px;
+
+  h1 {
+    font-family: $font-serif;
+    font-size: clamp(36px, 5vw, 60px);
+    font-weight: 300;
+    margin-bottom: 32px;
+
+    &::after {
+      content: '';
+      display: block;
+      width: 48px;
+      height: 2px;
+      background: $gold;
+      margin-top: 16px;
+    }
+  }
+
+  p {
+    font-size: 15px;
+    color: $warm-gray;
+    line-height: 1.8;
+    margin-bottom: 20px;
+    max-width: 680px;
+  }
+}
+
+// ── ROOM DETAIL ──────────────────────────────────────────
+.room-detail {
+  padding: 60px 0 100px;
+
+  .room-price {
+    font-family: $font-serif;
+    font-size: 42px;
+    font-weight: 300;
+    color: $ink;
+  }
+
+  .room-price-old {
+    font-family: $font-serif;
+    font-size: 24px;
+    color: $warm-gray;
+    text-decoration: line-through;
+  }
+
+  .room-specs {
+    tr {
+      border-bottom: 1px solid $border-color;
+    }
+
+    td {
+      padding: 12px 0;
+      font-size: 13px;
+
+      &:first-child { color: $warm-gray; width: 140px; }
+      &:last-child { font-weight: 500; }
+    }
+  }
+}
+
+// ── FOOTER ───────────────────────────────────────────────
+footer {
+  background: $ink;
+  color: rgba(255,255,255,0.5);
+  padding: 64px 0 32px;
+  margin-top: 80px;
+
+  .footer-brand {
+    font-family: $font-serif;
+    font-size: 22px;
+    font-weight: 300;
+    color: $white;
+    margin-bottom: 16px;
+
+    span { color: $gold; }
+  }
+
+  .footer-tagline {
+    font-size: 13px;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.4);
+    max-width: 280px;
+    margin-bottom: 0;
+  }
+
+  .footer-heading {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: $gold-light;
+    font-weight: 500;
+    margin-bottom: 20px;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+      margin-bottom: 10px;
+
+      a {
+        color: rgba(255,255,255,0.5);
+        font-size: 13px;
+        text-decoration: none;
+        transition: $transition;
+
+        &:hover { color: $gold-light; }
+      }
+    }
+  }
+
+  .footer-contact p {
+    font-size: 13px;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.8;
+    margin: 0;
+  }
+
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding-top: 28px;
+    margin-top: 48px;
+
+    p {
+      font-size: 12px;
+      color: rgba(255,255,255,0.3);
+      margin: 0;
+      text-align: center;
+    }
+  }
+}
+
+// ── RESPONSIVE ───────────────────────────────────────────
+// Feature 4.1.7 - Mobile responsive
+@media (max-width: 768px) {
+  .navbar-brand { font-size: 18px; }
+
+  .auth-card, .profile-card {
+    padding: 32px 24px;
+  }
+
+  .summary-card {
+    position: static;
+    margin-top: 24px;
+  }
+
+  footer { padding: 48px 0 24px; }
+
+  .page-section { padding: 48px 0 60px; }
+
+  .room-detail { padding: 40px 0 60px; }
+}
+
+@media (max-width: 576px) {
+  .cart-item-card .row { flex-direction: column; }
+
+  .checkout-card { padding: 24px 20px; }
+}
+
+// ── UTILITY CLASSES ──────────────────────────────────────
+.text-gold { color: $gold !important; }
+.text-warm-gray { color: $warm-gray !important; }
+.border-gold { border-color: $border-color !important; }
+.bg-cream { background-color: $cream !important; }
+.font-serif { font-family: $font-serif !important; }
+
+.section-title {
+  font-family: $font-serif;
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 300;
+  color: $ink;
+  margin-bottom: 8px;
+}
+
+.overline {
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: $gold;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.divider-gold {
+  width: 48px;
+  height: 2px;
+  background: $gold;
+  margin: 16px 0 32px;
+}
