@@ -4,6 +4,8 @@
   <div class="row g-4">
     <div class="col-lg-7">
       <%= form_with url: checkout_path, method: :post, local: true, data: { turbo: false } do |f| %>
+        <%= hidden_field_tag :stripe_payment_id, "", id: "stripe_payment_id" %>
+
         <div class="card border-0 shadow-sm mb-4">
           <div class="card-body">
             <h5 class="fw-light mb-3">Your Address</h5>
@@ -26,13 +28,27 @@
               <%= select_tag :province_id,
                   options_from_collection_for_select(@provinces, :id, :name, @province&.id),
                   class: "form-select", required: true,
-                  onchange: "this.form.submit()" %>
+                  onchange: "this.form.submit()",
+                  data: { turbo: false } %>
               <% if @province %>
                 <small class="text-muted">Tax: <%= @province.tax_summary %></small>
               <% end %>
             </div>
           </div>
         </div>
+
+        <% if @client_secret %>
+          <div class="card border-0 shadow-sm mb-4">
+            <div class="card-body">
+              <h5 class="fw-light mb-3">💳 Payment Details</h5>
+              <p class="text-muted small mb-3">
+                Test card: <strong>4242 4242 4242 4242</strong> — any future date — any CVC
+              </p>
+              <div id="card-element" class="form-control" style="padding:12px;height:auto;"></div>
+              <div id="card-errors" class="text-danger small mt-2"></div>
+            </div>
+          </div>
+        <% end %>
 
         <div class="card border-0 shadow-sm mb-4">
           <div class="card-body">
@@ -75,7 +91,9 @@
           </div>
         </div>
 
-        <%= submit_tag "Confirm Booking", class: "btn btn-dark w-100 py-3 fs-5 fw-light" %>
+        <button type="submit" id="submit-btn" class="btn btn-dark w-100 py-3 fs-5 fw-light">
+          Confirm Booking & Pay $<%= @total %>
+        </button>
       <% end %>
     </div>
 
@@ -97,3 +115,50 @@
     </div>
   </div>
 </div>
+
+<% if @client_secret %>
+  <script src="https://js.stripe.com/v3/"></script>
+  <script>
+    const stripe = Stripe('<%= @stripe_publishable_key %>');
+    const elements = stripe.elements();
+    const cardElement = elements.create('card', {
+      style: {
+        base: {
+          fontSize: '16px',
+          color: '#1A1614',
+          fontFamily: 'DM Sans, sans-serif'
+        }
+      }
+    });
+    cardElement.mount('#card-element');
+
+    cardElement.on('change', function(event) {
+      const displayError = document.getElementById('card-errors');
+      displayError.textContent = event.error ? event.error.message : '';
+    });
+
+    const form = document.querySelector('form');
+    const submitBtn = document.getElementById('submit-btn');
+
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Processing payment...';
+
+      const { paymentIntent, error } = await stripe.confirmCardPayment(
+        '<%= @client_secret %>', {
+          payment_method: { card: cardElement }
+        }
+      );
+
+      if (error) {
+        document.getElementById('card-errors').textContent = error.message;
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Confirm Booking & Pay $<%= @total %>';
+      } else {
+        document.getElementById('stripe_payment_id').value = paymentIntent.id;
+        form.submit();
+      }
+    });
+  </script>
+<% end %>
