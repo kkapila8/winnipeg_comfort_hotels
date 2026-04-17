@@ -4,7 +4,7 @@
   <div class="row g-5">
     <div class="col-lg-7">
       <% if @room.image.attached? %>
-        <%= image_tag @room.image.variant(resize_to_fill: [700, 450]), class: "img-fluid w-100", style: "object-fit:cover;max-height:450px;" %>
+        <%= image_tag @room.image.variant(resize_to_fill: [700, 450]), class: "img-fluid w-100", style: "object-fit:cover;max-height:450px;", alt: @room.name %>
       <% else %>
         <div class="bg-secondary d-flex align-items-center justify-content-center rounded" style="height:450px;">
           <span class="text-white" style="font-size:80px;">🏨</span>
