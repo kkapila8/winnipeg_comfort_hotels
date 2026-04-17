@@ -5,9 +5,9 @@ class ApplicationController < ActionController::Base
 
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up,
-      keys: [:name, :phone, :address, :city, :postal_code, :province_id])
+                                      keys: %i[name phone address city postal_code province_id])
     devise_parameter_sanitizer.permit(:account_update,
-      keys: [:name, :phone, :address, :city, :postal_code, :province_id])
+                                      keys: %i[name phone address city postal_code province_id])
   end
 
   def current_cart
@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
   end
 
   def cart_count
-    current_cart.values.sum { |item| item["quantity"] }
+    current_cart.values.sum { |item| item['quantity'] }
   end
   helper_method :current_cart, :cart_count
 end

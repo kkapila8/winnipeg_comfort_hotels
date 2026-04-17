@@ -1,5 +1,5 @@
 ActiveAdmin.register Order do
-  actions :all, except: [:new, :create, :destroy]
+  actions :all, except: %i[new create destroy]
 
   permit_params :status
 
@@ -36,7 +36,7 @@ ActiveAdmin.register Order do
       row :created_at
     end
 
-    panel "Order Items" do
+    panel 'Order Items' do
       table_for order.order_items do
         column :room_name
         column :unit_price
@@ -47,7 +47,7 @@ ActiveAdmin.register Order do
   end
 
   form do |f|
-    f.inputs "Update Order" do
+    f.inputs 'Update Order' do
       f.input :status, as: :select, collection: Order::STATUSES
     end
     f.actions

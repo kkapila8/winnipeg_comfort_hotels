@@ -7,18 +7,18 @@ class ProfilesController < ApplicationController
 
   def edit
     @user      = current_user
-    @provinces = Province.all.order(:name)
+    @provinces = Province.order(:name)
   end
 
   def update
     @user      = current_user
-    @provinces = Province.all.order(:name)
+    @provinces = Province.order(:name)
     if @user.update(profile_params)
-      flash[:success] = "Profile updated successfully."
+      flash[:success] = 'Profile updated successfully.'
       redirect_to profile_path
     else
-      flash.now[:error] = "Could not update profile."
-      render :edit, status: :unprocessable_entity
+      flash.now[:error] = 'Could not update profile.'
+      render :edit, status: :unprocessable_content
     end
   end
 

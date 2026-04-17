@@ -11,7 +11,7 @@ ActiveAdmin.register Page do
   end
 
   form do |f|
-    f.inputs "Page Content" do
+    f.inputs 'Page Content' do
       f.input :slug, as: :select, collection: %w[about contact]
       f.input :title
       f.input :content, as: :text

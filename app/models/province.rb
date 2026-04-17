@@ -14,9 +14,9 @@ class Province < ApplicationRecord
 
   def tax_summary
     parts = []
-    parts << "GST #{(gst * 100).round(1)}%" if gst > 0
-    parts << "PST #{(pst * 100).round(1)}%" if pst > 0
-    parts << "HST #{(hst * 100).round(1)}%" if hst > 0
-    parts.empty? ? "No tax" : parts.join(" + ")
+    parts << "GST #{(gst * 100).round(1)}%" if gst.positive?
+    parts << "PST #{(pst * 100).round(1)}%" if pst.positive?
+    parts << "HST #{(hst * 100).round(1)}%" if hst.positive?
+    parts.empty? ? 'No tax' : parts.join(' + ')
   end
 end
