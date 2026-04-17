@@ -48,3 +48,7 @@ end
 gem "aws-sdk-s3", "~> 1.219"
 
 gem "stripe", "~> 19.0"
+
+gem "nokogiri", "~> 1.19"
+
+gem "httparty", "~> 0.24.2"
