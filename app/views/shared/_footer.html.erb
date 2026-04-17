@@ -2,11 +2,11 @@
   <div class="container">
     <div class="row">
       <div class="col-md-4">
-        <h5 class="fw-light">Winnipeg <span style="color:#B8965A">Comfort</span> Hotels</h5>
+        <h2 class="h5 fw-light">Winnipeg <span style="color:#B8965A">Comfort</span> Hotels</h2>
         <p class="text-muted small">Three locations across Winnipeg, Manitoba. Comfortable stays for tourists, business travellers, and families.</p>
       </div>
       <div class="col-md-2">
-        <h6 class="text-uppercase small" style="color:#B8965A">Explore</h6>
+        <h3 class="h6 text-uppercase small" style="color:#B8965A">Explore</h3>
         <ul class="list-unstyled small">
           <li><%= link_to "Rooms", rooms_path, class: "text-muted text-decoration-none" %></li>
           <li><%= link_to "About", about_path, class: "text-muted text-decoration-none" %></li>
@@ -14,7 +14,7 @@
         </ul>
       </div>
       <div class="col-md-3">
-        <h6 class="text-uppercase small" style="color:#B8965A">Account</h6>
+        <h3 class="h6 text-uppercase small" style="color:#B8965A">Account</h3>
         <ul class="list-unstyled small">
           <% if user_signed_in? %>
             <li><%= link_to "My Bookings", orders_path, class: "text-muted text-decoration-none" %></li>
@@ -26,7 +26,7 @@
         </ul>
       </div>
       <div class="col-md-3">
-        <h6 class="text-uppercase small" style="color:#B8965A">Contact</h6>
+        <h3 class="h6 text-uppercase small" style="color:#B8965A">Contact</h3>
         <p class="text-muted small">
           📍 Winnipeg, Manitoba<br>
           📞 (204) 555-0100<br>
@@ -35,6 +35,6 @@
       </div>
     </div>
     <hr class="border-secondary">
-    <p class="text-center text-muted small mb-0">© <%= Time.current.year %> Winnipeg Comfort Hotels. All rights reserved.</p>
+    <p class="text-center text-muted small mb-0">&copy; <%= Time.current.year %> Winnipeg Comfort Hotels. All rights reserved.</p>
   </div>
 </footer>
