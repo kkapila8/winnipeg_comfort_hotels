@@ -29,42 +29,41 @@ class CheckoutsController < ApplicationController
     calculate_taxes(@province, @subtotal)
 
     order = Order.new(
-      user: current_user,
-      province: @province,
-      shipping_address: params[:address],
-      shipping_city: params[:city],
-      shipping_postal: params[:postal_code],
-      province_name: @province.name,
-      gst_rate: @province.gst,
-      pst_rate: @province.pst,
-      hst_rate: @province.hst,
-      subtotal: @subtotal,
-      gst_amount: @gst_amount,
-      pst_amount: @pst_amount,
-      hst_amount: @hst_amount,
-      total: @total,
-      status: 'pending',
-      # Feature 3.3.1 - Save Stripe payment ID to associate order with Stripe
+      user:              current_user,
+      province:          @province,
+      shipping_address:  params[:address],
+      shipping_city:     params[:city],
+      shipping_postal:   params[:postal_code],
+      province_name:     @province.name,
+      gst_rate:          @province.gst,
+      pst_rate:          @province.pst,
+      hst_rate:          @province.hst,
+      subtotal:          @subtotal,
+      gst_amount:        @gst_amount,
+      pst_amount:        @pst_amount,
+      hst_amount:        @hst_amount,
+      total:             @total,
+      status:            'pending',
       stripe_payment_id: params[:stripe_payment_id]
     )
 
     if order.save
       @cart_items.each do |item|
         order.order_items.create!(
-          room: item[:room],
-          room_name: item[:room].name,
+          room:       item[:room],
+          room_name:  item[:room].name,
           unit_price: item[:price],
-          quantity: item[:quantity],
+          quantity:   item[:quantity],
           line_total: item[:subtotal]
         )
       end
 
       unless current_user.full_address_present?
         current_user.update(
-          address: params[:address],
-          city: params[:city],
+          address:     params[:address],
+          city:        params[:city],
           postal_code: params[:postal_code],
-          province: @province
+          province:    @province
         )
       end
 
@@ -72,6 +71,10 @@ class CheckoutsController < ApplicationController
       order.update(status: 'paid') if params[:stripe_payment_id].present?
 
       session[:cart] = {}
+
+      # Feature 6.1 - Discord Bot notification on booking confirmation
+      DiscordNotifier.booking_confirmed(order)
+
       flash[:success] = "Booking confirmed! Order ##{order.id} placed successfully."
       redirect_to order_path(order)
     else
