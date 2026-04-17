@@ -181,6 +181,63 @@ rooms_data.each do |data|
 end
 
 puts "  #{Room.count} rooms created"
+# Feature 1.7 - Scrape additional room data from books.toscrape.com
+puts 'Scraping additional room data from web...'
+require 'httparty'
+require 'nokogiri'
+
+begin
+  response = HTTParty.get('http://books.toscrape.com/catalogue/page-1.html')
+  doc = Nokogiri::HTML(response.body)
+  scraped_count = 0
+
+  doc.css('article.product_pod').each_with_index do |item, index|
+    break if scraped_count >= 20
+
+    title = item.css('h3 a').attr('title').value rescue "Scraped Room #{index + 1}"
+    price_text = item.css('.price_color').text.strip
+    price = price_text.gsub(/[^0-9.]/, '').to_f
+    price = (price * 1.5).round(2)
+    price = [price, 49.99].max
+
+    rating_class = item.css('.star-rating').attr('class').value rescue 'star-rating Three'
+    rating = rating_class.split.last
+    on_sale = %w[One Two].include?(rating)
+    sale_price = on_sale ? (price * 0.85).round(2) : nil
+
+    hotels = [hotel1, hotel2, hotel3]
+    categories = [standard, deluxe, suite, business]
+    room_types = %w[Standard Deluxe Suite Business]
+
+    hotel = hotels[index % 3]
+    category = categories[index % 4]
+    room_type = room_types[index % 4]
+
+    room_name = "#{hotel.name.split.last} Scraped #{title.truncate(25)}"
+
+    room = Room.create!(
+      hotel:       hotel,
+      name:        room_name,
+      room_type:   room_type,
+      price:       price,
+      sale_price:  sale_price,
+      capacity:    rand(1..6),
+      description: "#{title} - A comfortable #{room_type.downcase} room at our #{hotel.name} location with premium amenities and excellent service.",
+      amenities:   'Free WiFi, TV, Coffee Maker, Daily Housekeeping',
+      available:   true,
+      on_sale:     on_sale
+    )
+
+    RoomCategory.create!(room: room, category: category)
+    scraped_count += 1
+  end
+
+  puts "  #{scraped_count} rooms scraped and added"
+rescue StandardError => e
+  puts "  Scraping skipped: #{e.message}"
+end
+
+puts "  #{Room.count} total rooms"
 
 # ── PAGES ──
 puts "Seeding pages..."
