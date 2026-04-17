@@ -1,7 +1,7 @@
 <div class="col">
   <div class="card h-100 shadow-sm">
     <% if room.image.attached? %>
-      <%= image_tag room.image.variant(resize_to_fill: [400, 250]), class: "card-img-top", style: "height:200px;object-fit:cover;" %>
+      <%= image_tag room.image.variant(resize_to_fill: [400, 250]), class: "card-img-top", style: "height:200px;object-fit:cover;", alt: room.name %>
     <% else %>
       <div class="card-img-top bg-secondary d-flex align-items-center justify-content-center" style="height:200px;">
         <span class="text-white fs-1">🏨</span>
@@ -21,7 +21,7 @@
         </div>
       </div>
 
-      <h5 class="card-title"><%= room.name %></h5>
+      <h2 class="card-title h5"><%= room.name %></h2>
       <p class="card-text text-muted small"><%= truncate(room.description, length: 100) %></p>
 
       <div class="mt-auto">
