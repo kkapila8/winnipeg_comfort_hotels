@@ -19,4 +19,12 @@ class Province < ApplicationRecord
     parts << "HST #{(hst * 100).round(1)}%" if hst.positive?
     parts.empty? ? 'No tax' : parts.join(' + ')
   end
+
+  def self.ransackable_attributes(_auth_object = nil)
+    %w[code created_at gst hst id name pst updated_at]
+  end
+
+  def self.ransackable_associations(_auth_object = nil)
+    %w[users orders]
+  end
 end
