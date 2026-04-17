@@ -52,3 +52,5 @@ gem "stripe", "~> 19.0"
 gem "nokogiri", "~> 1.19"
 
 gem "httparty", "~> 0.24.2"
+
+gem "discordrb-webhooks", "~> 3.7"
