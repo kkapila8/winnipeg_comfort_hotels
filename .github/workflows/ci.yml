@@ -17,8 +17,8 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.4.9'
-          bundler-cache: true
+          ruby-version: '3.4.8'
+          bundler-cache: false
 
       - name: Install dependencies
         run: bundle install
@@ -36,8 +36,8 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.4.9'
-          bundler-cache: true
+          ruby-version: '3.4.8'
+          bundler-cache: false
 
       - name: Install dependencies
         run: bundle install
