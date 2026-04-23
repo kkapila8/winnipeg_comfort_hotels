@@ -45,7 +45,7 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
-gem "aws-sdk-s3", "~> 1.219"
+gem "aws-sdk-s3", "~> 1.220"
 
 gem "stripe", "~> 19.0"
 
