@@ -47,7 +47,7 @@ group :test do
 end
 gem "aws-sdk-s3", "~> 1.219"
 
-gem "stripe", "~> 19.0"
+gem "stripe", "~> 19.1"
 
 gem "nokogiri", "~> 1.19"
 
